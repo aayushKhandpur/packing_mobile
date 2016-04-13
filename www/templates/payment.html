@@ -1,0 +1,74 @@
+<ion-view title="Payment Gateway">
+    <ion-nav-bar class="bar-stable nav-title-slide-ios7">
+        <ion-nav-back-button class="button-clear"><i class="icon ion-ios-arrow-back"></i></i> Back</ion-nav-back-button>
+    </ion-nav-bar>
+    <ion-nav-buttons side="left">
+        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <a class="button button-clear" href="#/app/basket"><i class="icon ion-ios-cart"><span class="badge badge-dark">{{cartItems}}</span></i></a>
+    </ion-nav-buttons>
+    <ion-content class="has-header">
+        <div class="card" ng-repeat="product in basketProducts">
+            <div class="card-content">
+                <div class="text-right product-price">
+                    <div class="item item-thumbnail-left">
+                        <img ng-if="product.images[0].src" ng-src="{{product.images[0].src}}" />
+                        <h2>{{product.title}}</h2>
+                        <span ng-if='product.quantity > 1'>{{product.quantity}} x </span>
+                        <b><span ng-bind-html="product.price_html"></span></b>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="!isPaid()">
+            
+            <p class='item item-text-wrap'>
+                Please enter your Customer E-mail:
+            </p>
+            <label class="item item-input">
+                <span class="input-label">E-mail</span>
+                <input type="email" ng-model="email.addr" ng-change="evaluateEmail()" ng-model-options="{debounce: 750}" placeholder="Enter your Customer E-mail">
+            </label>
+            <a ng-if='!canPay()' class='item subdued text-center' ng-click='registerUser()'>Don't have an account yet?</a>
+            <label ng-if='canPay()' class="item">
+                <div class="row col item" ng-if="user">
+                    <div ng-if="user.customer.last_name || user.customer.first_name"><strong>Name</strong>: {{user.customer.last_name}} {{user.customer.first_name}}</div>
+                    <div ng-if="user.customer.last_order_date"><strong>Last Order</strong>: {{user.customer.last_order_date | date}}</div>
+                    <div ng-if="user.customer.id || user.customer.created_at"><strong>Id / Created</strong>: {{user.customer.id}} / {{user.customer.created_at | date}}</div>
+                    <div ng-if="user.customer.username || user.customer.role"><strong>Username / Role</strong>: {{user.customer.username}} / {{user.customer.role}}</div>
+                    <div ng-if="user.customer.last_order_id"><strong>Last Order ID</strong>: {{user.customer.last_order_id}}</div>
+                    <div ng-if="user.customer.last_order_date"><strong>Last Order Date</strong>: {{user.customer.last_order_date | date}}</div>
+                </div>
+            </label>
+            <div class="padding">
+                <button class="button button-block button-positive" ng-click="payViaSite()" disabled ng-if='!canPay()'>Pay via Site</button>
+                <button class="button button-block button-positive" ng-click="payViaSite()" ng-if='canPay()'>Pay via Site</button>
+            </div>
+            <div class="item-divider padding">
+                    <div class="text-center">
+                        <button class='button button-block button-positive' disabled ng-if='!canPay()' ng-click="payViaPaypal()">
+                            <i class="icon ion-card"> Pay via PayPal</i>
+                        </button>
+                        <button class='button button-block button-positive' ng-if='canPay()' ng-click="payViaPaypal()">
+                            <i class="icon ion-card"> Pay via PayPal</i>
+                        </button>
+                    </div>
+<!--                     <div class="col text-center">
+                        <button class='button button-positive' disabled ng-if='!canPay()' ng-click="payViaStripe()">
+                            <i class="icon ion-ios-cart"> Pay via Stripe</i>
+                        </button>
+                        <button class='button button-positive' ng-if='canPay()' ng-click="payViaStripe()">
+                            <i class="icon ion-ios-cart"> Pay via Stripe</i>
+                        </button>
+                    </div> -->
+            </div>
+        </div>
+        <div ng-show="isPaid()">
+            <p class='item item-text-wrap'>
+                <i class="icon ion-checkmark"> Your <strong>Order has been received</strong> and the <strong>Payment was successful</strong>.</i>
+                <br>Please check also your <strong>Order Status in our website</strong>.
+            </p>
+        </div>
+    </ion-content>
+    </div>

@@ -1,0 +1,101 @@
+<ion-view view-title='Product'>
+    <ion-nav-title>{{product.title}}</ion-nav-title>
+    <ion-nav-bar class="bar-stable nav-title-slide-ios7">
+    <ion-nav-back-button class="button-clear"><i class="icon ion-ios-arrow-back"></i></i> Back</ion-nav-back-button>
+    </ion-nav-bar>
+    <ion-nav-buttons side="left">
+        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <div class="buttons">
+            <button ui-sref="app.basket" class="button no-animation button-icon icon" style="-webkit-user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><i class="icon ion-ios-cart"><span class="badge badge-dark">{{cartItems}}</span></i>
+            </button>
+
+            <button ng-click="shareProduct()" class="button no-animation button-icon icon ion-share" style="-webkit-user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+            </button>
+        </div>
+    </ion-nav-buttons>
+    
+
+    <ion-content class="has-header">
+        <div class="list card">
+            <div class="item item-divider">
+                <ion-slide-box on-slide-changed="slideHasChanged($index)" auto-play="true" does-continue="true">
+                    <ion-slide class="item item-image" ng-repeat="picture in product.images">
+                        <img ng-src="{{picture.src}}" />
+                    </ion-slide>
+                </ion-slide-box>
+            </div>
+            <div class="item tabs subdued">
+                <a class="tab-item" ng-repeat="cat in product.categories" href="#/app/categories/{{getSlugByName(cat)}}/{{cat}}">
+                    {{cat}}
+                </a>
+            </div>
+            <div class="item item-text-wrap">
+                <div ng-bind-html="product.description"></div>
+                <div class='row'>
+                    <div class="col text-left">
+                        <button class="button button-small button-positive" ng-click="openLink(product.permalink)">Product page</button>
+                    </div>
+                    <div class="col text-right" style='vertical-align: middle; margin-top: 4px'>
+                        <wc-rating rating='product.average_rating' />
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <label class="item item-input">
+                    <span class="input-label">Quantity:</span>
+                    <form name="quantityForm" style="width:100%">
+                    <input class='text-right' name="quantity" type="number" min="1" max="{{product.stock_quantity}}" ng-model='quantity.value' required>
+                    </form>
+                </label>
+                <label style="padding:15px 0 0 15px; display:inline-block;" ng-if="product.stock_quantity">
+                    <span>Stock Quantity: <b>{{product.stock_quantity}}</b></span>
+                </label>
+                
+                <div>
+                    <label class="item item-input item-select" ng-repeat="attr in product.attributes">
+                        <span class="input-label">{{attr.name}}:</span>
+                        <select ng-model="attr.position">
+                                <option ng-repeat="option in attr.options" value="{{$index}}" selected="{{($index) != attr.position}}" >{{option}}</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div class="item item-divider ">
+                <div class='row'>
+                    <div class="col text-left">
+                        <button class='button button-positive' ng-click="toBasket()" ng-if="product" ng-disabled="!product.in_stock || (product.stock_quantity && (product.stock_quantity < quantity.value)) || !quantityForm.quantity.$valid">
+                            <i class="icon ion-ios-cart" style='margin-right: 4px'> </i> <span ng-if="product.in_stock && quantityForm.quantity.$valid">Add To Cart</span><span ng-if="!product.in_stock">Out of stock</span><span ng-if="!quantityForm.quantity.$valid">Invalid Quantity</span>
+                        </button>
+                    </div>
+                    <div class="col text-right">
+                        <div style='vertical-align: middle; margin-top: 16px; margin-right: 8px'>
+                            <i class="icon ion-pricetag"></i>
+                            <span class='product-price' ng-bind-html="product.price_html"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reviews -->
+            <div class="list" ng-if="reviews">
+                <div class="card" ng-repeat="review in reviews" ng-if="reviews.length > 0">
+                    <div class="item">
+                        <h2>{{review.reviewer_name}}</h2>
+                        <p><i class="icon ion-calendar"></i> {{humaneDate(review.created_at)}}</p>
+                    </div>
+                    <div class="item item-body">
+                        <p>{{review.review}}</p>
+                        <p class="text-right">
+                            <wc-rating rating='review.rating' class="subdued" />
+                        </p>
+                    </div>
+                </div>
+                <ion-infinite-scroll ng-if="hasMoreReviews()" on-infinite="loadMoreReviews()" distance="10%">
+                </ion-infinite-scroll>
+            </div>
+            
+        </div>
+    </ion-content>
+</ion-view>

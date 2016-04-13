@@ -1,0 +1,315 @@
+<ion-view title="New Customer">
+	<ion-nav-title>New Customer</ion-nav-title> 
+    <ion-nav-buttons side="left">
+        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <a class="button button-clear" href="#/app/basket"><i class="icon ion-ios-cart"><span class="badge badge-dark">{{cartItems}}</span></i></a>
+    </ion-nav-buttons>
+
+    <ion-content class="has-header padding">
+
+		<div class="list">
+
+			<form name="customerForm" novalidate ng-show="customer.edit">
+
+				<div class="item item-divider">
+				Personal Information*
+				</div>
+
+				<label class="item item-input">
+				<span class="input-label">Email*:</span>
+				<input name="email" type="email" ng-model="customer.email" required>
+				</label>
+				<p class="error" ng-show="customerForm.email.$error.required">Please enter an Email.</p>
+				<p class="error" ng-show="customerForm.email.$error.email">That is not a valid Email. Please enter a valid Email.</p>
+
+				<label class="item item-input">
+				<span class="input-label">First Name*:</span>
+				<input name="first_name" ng-model="customer.first_name" type="text" required>
+				</label>
+				<p class="error" ng-show="customerForm.first_name.$error.required">Please enter your First Name.</p>
+
+				<label class="item item-input">
+				<span class="input-label">Last Name*:</span>
+				<input name="last_name" ng-model="customer.last_name" type="text" required>
+				</label>
+				<p class="error" ng-show="customerForm.last_name.$error.required">Please enter your Last Name.</p>
+
+				<label class="item item-input">
+				<span class="input-label">Username*:</span>
+				<input name="username" ng-model="customer.username" type="text" required>
+				</label>
+				<p class="error" ng-show="customerForm.username.$error.required">Please enter a Username.</p>
+
+				<label class="item item-input">
+				<span class="input-label">Password*:</span>
+				<input name="password" ng-model="customer.password" type="text" required>
+				</label>
+				<p class="error" ng-show="customerForm.password.$error.required">Please enter a Password.</p>
+
+				<div class="item item-divider">
+				Billing Address
+				</div>
+
+				<label class="item item-input">
+				<span class="input-label">First Name:</span>
+				<input ng-model="billing_address.first_name" type="text">
+				</label>
+
+				<label class="item item-input">
+				<span class="input-label">Last Name:</span>
+				<input ng-model="billing_address.last_name" type="text">
+				</label>
+
+				<label class="item item-input">
+				<span class="input-label">Company:</span>
+				<input ng-model="billing_address.company" type="text">
+				</label>
+
+				<label class="item item-input">
+				<span class="input-label">Address (1):</span>
+				<input ng-model="billing_address.address_1" type="text">
+				</label>
+
+				<label class="item item-input">
+				<span class="input-label">Address (2):</span>
+				<input ng-model="billing_address.address_2" type="text">
+				</label>
+
+				<label class="item item-input">
+				<span class="input-label">City:</span>
+				<input ng-model="billing_address.city" type="text">
+				</label>
+
+				<label class="item item-input">
+				<span class="input-label">State:</span>
+				<input ng-model="billing_address.state" type="text">
+				</label>
+
+				<label class="item item-input">
+				<span class="input-label">Postcode:</span>
+				<input ng-model="billing_address.postcode" type="text">
+				</label>
+
+				<label class="item item-input">
+				<span class="input-label">Country:</span>
+				<input ng-model="billing_address.country" type="text">
+				</label>
+
+				<label class="item item-input">
+				<span class="input-label">Email:</span>
+				<input name="billingAddressEmail" ng-model="billing_address.email" type="email">
+				</label>
+				<p class="error" ng-show="customerForm.billingAddressEmail.$error.email">Please enter a valid.</p>
+
+				<label class="item item-input">
+				<span class="input-label">Phone:</span>
+				<input ng-model="billing_address.phone" type="text">
+				</label>
+
+
+				<div class="item item-divider">
+				Shipping Address
+				</div>
+
+				<label class="item item-input">
+				<span class="input-label">First Name:</span>
+				<input ng-model="shipping_address.first_name" type="text">
+				</label>
+
+				<label class="item item-input">
+				<span class="input-label">Last Name:</span>
+				<input ng-model="shipping_address.last_name" type="text">
+				</label>
+
+				<label class="item item-input">
+				<span class="input-label">Company:</span>
+				<input ng-model="shipping_address.company" type="text">
+				</label>
+
+				<label class="item item-input">
+				<span class="input-label">Address (1):</span>
+				<input ng-model="shipping_address.address_1" type="text">
+				</label>
+
+				<label class="item item-input">
+				<span class="input-label">Address (2):</span>
+				<input ng-model="shipping_address.address_2" type="text">
+				</label>
+
+				<label class="item item-input">
+				<span class="input-label">City:</span>
+				<input ng-model="shipping_address.city" type="text">
+				</label>
+
+				<label class="item item-input">
+				<span class="input-label">State:</span>
+				<input ng-model="shipping_address.state" type="text">
+				</label>
+
+				<label class="item item-input">
+				<span class="input-label">Postcode:</span>
+				<input ng-model="shipping_address.postcode" type="text">
+				</label>
+
+				<label class="item item-input">
+				<span class="input-label">Country:</span>
+				<input ng-model="shipping_address.country" type="text">
+				</label>
+
+				<button class="button button-block button-positive" ng-click="createCustomer()" ng-disabled="customerForm.$invalid">
+				Create Customer
+				</button>
+						
+			</form>
+
+		</div>
+
+		<div class="list" ng-show="!customer.edit">
+
+			<button class="button button-block button-stable" ui-sref="app.products">
+			<i class="icon ion-bag"></i> Continue Shopping
+			</button>
+
+			<button class="button button-block button-dark" ui-sref="app.basket">
+			<i class="icon ion-ios-cart"></i> View Cart
+			</button>
+
+			<div class="item item-divider">
+			Personal Information
+			</div>
+
+			<label class="item item-input">
+			<span class="input-label">Email:</span>
+			{{customer.email}}
+			</label>
+
+			<label class="item item-input">
+			<span class="input-label">First Name:</span>
+			{{customer.first_name}}
+			</label>
+
+			<label class="item item-input">
+			<span class="input-label">Last Name:</span>
+			{{customer.last_name}}
+			</label>
+
+			<label class="item item-input">
+			<span class="input-label">Username:</span>
+			{{customer.username}}
+			</label>
+
+			<div class="item item-divider">
+			Billing Address
+			</div>
+
+			<label class="item item-input">
+			<span class="input-label">First Name:</span>
+			{{customer.billing_address.first_name}}
+			</label>
+
+			<label class="item item-input">
+			<span class="input-label">Last Name:</span>
+			{{customer.billing_address.last_name}}
+			</label>
+
+			<label class="item item-input">
+			<span class="input-label">Company:</span>
+			{{customer.billing_address.company}}
+			</label>
+
+			<label class="item item-input">
+			<span class="input-label">Address (1):</span>
+			{{customer.billing_address.address_1}}
+			</label>
+
+			<label class="item item-input">
+			<span class="input-label">Address (2):</span>
+			{{customer.billing_address.address_2}}
+			</label>
+
+			<label class="item item-input">
+			<span class="input-label">City:</span>
+			{{customer.billing_address.city}}
+			</label>
+
+			<label class="item item-input">
+			<span class="input-label">State:</span>
+			{{customer.billing_address.state}}
+			</label>
+
+			<label class="item item-input">
+			<span class="input-label">Postcode:</span>
+			{{customer.billing_address.postcode}}
+			</label>
+
+			<label class="item item-input">
+			<span class="input-label">Country:</span>
+			{{customer.billing_address.country}}
+			</label>
+
+			<label class="item item-input">
+			<span class="input-label">Email:</span>
+			{{customer.billing_address.email}}
+			</label>
+
+			<label class="item item-input">
+			<span class="input-label">Phone:</span>
+			{{customer.billing_address.phone}}
+			</label>
+
+
+			<div class="item item-divider">
+			Shipping Address
+			</div>
+
+			<label class="item item-input">
+			<span class="input-label">First Name:</span>
+			{{customer.shipping_address.first_name}}
+			</label>
+
+			<label class="item item-input">
+			<span class="input-label">Last Name:</span>
+			{{customer.shipping_address.last_name}}
+			</label>
+
+			<label class="item item-input">
+			<span class="input-label">Company:</span>
+			{{customer.shipping_address.company}}
+			</label>
+
+			<label class="item item-input">
+			<span class="input-label">Address (1):</span>
+			{{customer.shipping_address.address_1}}
+			</label>
+
+			<label class="item item-input">
+			<span class="input-label">Address (2):</span>
+			{{customer.shipping_address.address_2}}
+			</label>
+
+			<label class="item item-input">
+			<span class="input-label">City:</span>
+			{{customer.shipping_address.city}}
+			</label>
+
+			<label class="item item-input">
+			<span class="input-label">State:</span>
+			{{customer.shipping_address.state}}
+			</label>
+
+			<label class="item item-input">
+			<span class="input-label">Postcode:</span>
+			{{shipping_address.postcode}}
+			</label>
+
+			<label class="item item-input">
+			<span class="input-label">Country:</span>
+			{{shipping_address.country}}
+			</label>
+					
+		</div>
+
+    </ion-content>
+</ion-view>

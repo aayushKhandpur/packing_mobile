@@ -1,0 +1,31 @@
+<ion-view>
+    <ion-nav-title>{{title}}</ion-nav-title> 
+    <ion-nav-buttons side="left">
+        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <a class="button button-clear" href="#/app/basket"><i class="icon ion-ios-cart"><span class="badge badge-dark">{{cartItems}}</span></i></a>
+    </ion-nav-buttons>
+    <ion-content class="has-header">
+        <div class="row" ng-repeat="row in products | partition:1">
+            <div class="card col" ng-repeat="product in row">
+                <div class="card-content">
+
+                    <div class="card-bg-image"></div>
+                    <a class="product-title  text-center" ng-href="#/app/products/{{product.id}}">
+                        
+                        <img ng-if="product.images[0].src" ng-src="{{product.images[0].src}}" />
+                        <h3>{{product.title}}</h3>
+                        
+                    </a>
+
+                    <div ng-if="product.price_html" class="text-right product-price">
+                        <i class="icon ion-pricetag"></i>
+                        <span class="" ng-bind-html="product.price_html"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ion-infinite-scroll ng-if="hasMoreProducts()" on-infinite="loadMoreProducts()" distance="10%" spinner="none" icon="none"></ion-infinite-scroll>
+    </ion-content>
+</ion-view>

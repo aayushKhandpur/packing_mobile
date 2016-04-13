@@ -1,0 +1,43 @@
+<ion-view title="{{index.name}}">
+    <ion-nav-buttons side="left">
+        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <a class="button button-clear" href="#/app/basket"><i class="icon ion-ios-cart"><span class="badge badge-dark">{{cartItems}}</span></i></a>
+    </ion-nav-buttons>
+    <ion-content class="has-header">
+
+        <div class="screen">
+            <div class="item-text-wrap text-center">
+                <div class="text-center">
+                    <img src="images/woocommerce-logo.png" class="banner"/>
+                    <p>{{index.description}}<br/>{{index.URL}}</p>
+                    </div>
+            </div>
+        </div>
+
+        <div ng-repeat="row in items | partition:1" class="row">
+
+            <div class="card col home text-center" ng-repeat='item in row'>
+                <a class="item item-text-wrap" href="{{item.url}}">
+                    <h1><i class="icon {{item.icon}}"></i></h1>
+                    <h2>{{item.title}}</h2>
+                    <span class="item-note ">{{item.note}}</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="card col home text-center">
+                <a class="item item-text-wrap" ui-sref="app.newCustomer">
+                    <h1><i class="icon ion-person-add"></i></h1>
+                    <h2>New Customer</h2>
+                    <span class="item-note ">Register</span>
+                </a>
+            </div>
+
+        </div>
+
+    </ion-content>
+</ion-view>
